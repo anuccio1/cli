@@ -41,6 +41,10 @@ func (actor Actor) CreateBuildpack(buildpack Buildpack) (Buildpack, Warnings, er
 	return Buildpack(ccv3Buildpack), Warnings(warnings), err
 }
 
+func (actor Actor) UpdateBuildpackByNameAndStack() {
+
+}
+
 func (actor Actor) UploadBuildpack(GUID string, pathToBuildpackBits string, progressBar SimpleProgressBar) (Warnings, error) {
 	wrappedReader, size, err := progressBar.Initialize(pathToBuildpackBits)
 	if err != nil {

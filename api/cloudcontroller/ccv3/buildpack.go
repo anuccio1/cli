@@ -226,3 +226,27 @@ func (client *Client) uploadBuildpackAsynchronously(request *cloudcontroller.Req
 	}
 	return buildpack, response.Warnings, firstError
 }
+
+func (client Client) UpdateBuildpack(buildpack Buildpack) (Buildpack, Warnings, error) {
+	bodyBytes, err := json.Marshal(buildpack)
+	if err != nil {
+		return Buildpack{}, nil, err
+	}
+
+	request, err := client.newHTTPRequest(requestOptions{
+		RequestName: internal.PatchBuildpackRequest,
+		Body:        bytes.NewReader(bodyBytes),
+		URIParams:   map[string]string{"buildpack_guid": buildpack.GUID},
+	})
+	if err != nil {
+		return Buildpack{}, nil, err
+	}
+
+	var responseBuildpack Buildpack
+	response := cloudcontroller.Response{
+		DecodeJSONResponseInto: &responseBuildpack,
+	}
+	err = client.connection.Make(request, &response)
+
+	return responseBuildpack, response.Warnings, err
+}

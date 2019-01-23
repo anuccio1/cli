@@ -131,6 +131,10 @@ var _ = Describe("Buildpack", func() {
 		})
 	})
 
+	Describe("UpdateBuildpackByNameAndStack", func() {
+
+	})
+
 	Describe("UploadBuildpack", func() {
 		var (
 			bpFile     io.Reader
